@@ -23,8 +23,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.hossain.admobandroidcompose.admanager.InterstitialAdManager
+import com.google.android.gms.ads.MobileAds
+import com.hossain.admobandroidcompose.admanager.RewardedAdManager
 import com.hossain.admobandroidcompose.ui.theme.AdmobAndroidComposeTheme
 
 
@@ -49,6 +50,10 @@ class MainActivity : ComponentActivity() {
                     var bannerAdView: AdView? = remember {
                         null
                     }
+                    val rewardedAdManager = remember {
+                        RewardedAdManager(context)
+                    }
+                    val rewardedAdStatus = rewardedAdManager.status
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -68,6 +73,7 @@ class MainActivity : ComponentActivity() {
                                 else "Load Interstitial Ad"
                             )
                         }
+                        Spacer(modifier = Modifier.height(14.dp))
                         Button(onClick = {
                             val adRequest = AdRequest.Builder().build()
                             bannerAdView?.loadAd(adRequest)
@@ -76,6 +82,20 @@ class MainActivity : ComponentActivity() {
                             Text("Load Banner Ad")
                         }
                         Spacer(modifier = Modifier.height(14.dp))
+                        Button(onClick = {
+                            if (rewardedAdStatus) {
+                                rewardedAdManager.showAd()
+                            } else {
+                                rewardedAdManager.loadAd()
+                            }
+                        }) {
+                            Text(
+                                if (rewardedAdStatus) "Show Rewarded Ad"
+                                else "Load Rewarded Ad"
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(14.dp))
+
 
                     }
                     Box(
