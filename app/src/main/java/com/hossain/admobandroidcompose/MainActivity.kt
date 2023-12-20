@@ -5,9 +5,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.hossain.admobandroidcompose.admanager.InterstitialAdManager
 import com.hossain.admobandroidcompose.ui.theme.AdmobAndroidComposeTheme
@@ -40,6 +46,9 @@ class MainActivity : ComponentActivity() {
                         InterstitialAdManager(context)
                     }
                     val interstitialAdStatus = interstitialAdManager.status
+                    var bannerAdView: AdView? = remember {
+                        null
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -51,13 +60,33 @@ class MainActivity : ComponentActivity() {
                             if (interstitialAdStatus) {
                                 interstitialAdManager.showAd()
                             } else {
-                              interstitialAdManager.loadAd()
+                                interstitialAdManager.loadAd()
                             }
                         }) {
                             Text(
                                 if (interstitialAdStatus) "Show Interstitial Ad"
                                 else "Load Interstitial Ad"
                             )
+                        }
+                        Button(onClick = {
+                            val adRequest = AdRequest.Builder().build()
+                            bannerAdView?.loadAd(adRequest)
+
+                        }) {
+                            Text("Load Banner Ad")
+                        }
+                        Spacer(modifier = Modifier.height(14.dp))
+
+                    }
+                    Box(
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        BannerAdView(
+                            adId = BANNER_AD_ID,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            bannerAdView = it
                         }
                     }
                 }
