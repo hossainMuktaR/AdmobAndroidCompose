@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     val rewardedAdManager = remember {
                         RewardedAdManager(context)
                     }
-                    val interstitialAdStatus = rewardedAdManager.status
+                    val rewardedAdStatus = rewardedAdManager.status
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -48,15 +48,15 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Button(onClick = {
-                            if (interstitialAdStatus) {
+                            if (rewardedAdStatus) {
                                 rewardedAdManager.showAd()
                             } else {
                                 rewardedAdManager.loadAd()
                             }
                         }) {
                             Text(
-                                if (interstitialAdStatus) "Show Interstitial Ad"
-                                else "Load Interstitial Ad"
+                                if (rewardedAdStatus) "Show Rewarded Ad"
+                                else "Load Rewarded Ad"
                             )
                         }
                     }
