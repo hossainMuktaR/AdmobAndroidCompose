@@ -26,15 +26,22 @@ import com.google.android.gms.ads.AdView
 import com.hossain.admobandroidcompose.admanager.InterstitialAdManager
 import com.google.android.gms.ads.MobileAds
 import com.hossain.admobandroidcompose.admanager.RewardedAdManager
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import com.google.android.gms.ads.nativead.NativeAd
+import com.hossain.admobandroidcompose.admanager.NativeAdManager
 import com.hossain.admobandroidcompose.ui.theme.AdmobAndroidComposeTheme
 
 
 class MainActivity : ComponentActivity() {
+    lateinit var nativeAdManager: NativeAdManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Initialize the Google Mobile Ads SDK
         MobileAds.initialize(this)
-
+        nativeAdManager = NativeAdManager(this)
         setContent {
             AdmobAndroidComposeTheme {
                 // A surface container using the 'background' color from the theme
@@ -54,6 +61,14 @@ class MainActivity : ComponentActivity() {
                         RewardedAdManager(context)
                     }
                     val rewardedAdStatus = rewardedAdManager.status
+
+                    var nativeAd: NativeAd? by remember {
+                        mutableStateOf(null)
+                    }
+                    val nativeAdStatus = nativeAdManager.status
+                    var nativeAdShow by remember {
+                        mutableStateOf(false)
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -95,7 +110,25 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         Spacer(modifier = Modifier.height(14.dp))
+                        Button(onClick = {
+                            if(!nativeAdStatus){
+                                nativeAdManager.loadAd(
+                                    NATIVE_AD_ID
+                                ) {
+                                    nativeAd = it
+                                }
+                                nativeAdShow = false
+                            } else {
+                                nativeAdShow = true
+                            }
 
+                        }) {
+                            Text(if(nativeAdStatus) "Show Native Ad" else "Load Native Ad")
+                        }
+                        Spacer(modifier = Modifier.height(14.dp))
+                        if(nativeAdShow) {
+                            NativeAdView(ad = nativeAd!!)
+                        }
 
                     }
                     Box(
@@ -109,8 +142,15 @@ class MainActivity : ComponentActivity() {
                             bannerAdView = it
                         }
                     }
+
                 }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        nativeAdManager.destroyAd()
+    }
+
 }

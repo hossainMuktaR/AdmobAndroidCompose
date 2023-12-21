@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
@@ -69,4 +70,5 @@ dependencies {
 
     //for admob gsm-ads
     implementation("com.google.android.gms:play-services-ads:22.6.0")
+    implementation("androidx.compose.ui:ui-viewbinding:1.5.4")
 }
