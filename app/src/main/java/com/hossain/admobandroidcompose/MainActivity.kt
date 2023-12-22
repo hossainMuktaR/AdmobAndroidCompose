@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.google.android.gms.ads.MobileAds
+import com.hossain.admobandroidcompose.admanager.AppOpenAdManager
 import com.hossain.admobandroidcompose.ui.theme.AdmobAndroidComposeTheme
 
 
@@ -16,8 +18,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Initialize the Google Mobile Ads SDK
-        MobileAds.initialize(this)
-        
+//        MobileAds.initialize(this)
+
         setContent {
             AdmobAndroidComposeTheme {
                 // A surface container using the 'background' color from the theme
@@ -25,6 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+
                     Text(text = "init state")
                 }
             }
