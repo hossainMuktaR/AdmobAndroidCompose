@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
         // Initialize the Google Mobile Ads SDK
         MobileAds.initialize(this)
         nativeAdManager = NativeAdManager(this)
+
         setContent {
             AdmobAndroidComposeTheme {
                 // A surface container using the 'background' color from the theme
@@ -142,7 +143,6 @@ class MainActivity : ComponentActivity() {
                             bannerAdView = it
                         }
                     }
-
                 }
             }
         }
