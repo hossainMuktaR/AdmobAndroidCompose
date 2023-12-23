@@ -62,7 +62,7 @@ class AppOpenAdManager {
 
     }
 
-    fun showAdIfAvailable(
+    private fun showAdIfAvailable(
         activity: Activity,
         onShowAdCompleteListener: OnShowAdCompleteListener
     ) {
@@ -77,7 +77,7 @@ class AppOpenAdManager {
             loadAd(activity)
             return
         }
-        appOpenAd!!.fullScreenContentCallback = object : FullScreenContentCallback() {
+        appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 super.onAdDismissedFullScreenContent()
                 // Called when full screen content is dismissed.
@@ -109,7 +109,7 @@ class AppOpenAdManager {
             }
         }
         isShowingAd = true
-        appOpenAd!!.let {
+        appOpenAd?.let {
             it.show(activity)
             Log.d(TAG, "AppOpenAd.Show called")
         }
